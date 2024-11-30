@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TO-DO-List</title>
+    
+    <style>
+    .body{
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppis',sans-serif;
+        width:100%;
+        height: 100vh;
+    }
+    .container{
+        width:100%;
+        height: 100vh;
+        background: linear-gradient(135deg,rgb(57, 238, 57),rgb(30, 84, 164));
+        display: flex;
+        align-items:center;
+    }
+    .todo {
+        width: 100%;
+        max-width: 500px;
+        background-color: white;
+        margin: 10px auto 400px;
+        padding: 40px 30px 90px;
+        border-radius: 15px;
+        
+    }
+    .todo h2{
+        color: rgb(30, 84, 164);
+        display:flex;
+        align-items:center;
+        justify-content: center;
+        margin-bottom: 20px;
+
+    }
+    .todo h2 img{
+        width: 25px;
+        margin-left: 10px;
+       
+    }
+    .row{
+        align-items: center;
+        display: flex;
+        background-color: rgb(236, 236, 236);
+        border-radius: 30px;
+        padding-left: 20px;
+        margin-bottom: 25px;
+
+    }
+    input{
+        border: none;
+        outline: none;
+        background:transparent;
+        flex: 1;
+        font-size: 16px;
+    }
+    button{
+        border: none;
+        outline: none;
+        border-radius: 60px;
+        padding:16px 50px;
+        background: #1574e8;
+        color: white;
+        font-size: 16px;
+       
+    }
+    ul li{
+        list-style: none;
+        font-size: 18px;
+        font-weight: 400;
+        padding: 12px 8px 12px 50px;
+        user-select: none;
+        cursor: pointer;
+        position: relative;
+        
+     }
+     ul li::before{
+        background-image: url(unchecked.jpg);
+        background-size: cover;
+        content: '';
+        height: 22px;
+        width: 23px;
+        position: absolute;
+        background-position: center;
+        left:5px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+     }
+
+     ul li.checked{
+        text-decoration: line-through; 
+     }
+     ul li.checked::before{
+         background-image: url(checked.jpg);
+         height: 23px;
+         width: 35px;
+     }
+     ul li span{
+         color: #ff5945;
+         width: 40px;
+         height: 40px;
+         font-size: 30px;
+         border-radius: 20px;
+         text-align: center;
+         right: 0;
+         top:5px;
+         line-height: 40px;
+         position: absolute;
+      }
+      ul li span:hover{
+         background: rgb(236, 234, 234);
+         border-radius: 20px;
+      }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+           <div class="todo">
+            <h2>To Do-List 
+                <img src="todolist.jpg">
+            </h2>
+            
+           <div class="row">
+            <input type="text" placeholder="Add your task" id="input-box">
+            <button onclick="addtask()">Add</button>
+           </div>
+           <ul id="list-container">
+            
+
+           </ul>
+        </div>
+        </div>
+        <script>
+            const inputbox=document.getElementById("input-box")
+            const listcontainer=document.getElementById("list-container")
+            
+            function addtask()
+        {
+            if(inputbox.value===''){
+                alert("Please add your task!")
+            }
+            else{
+                let li= document.createElement("li")
+                li.innerHTML= inputbox.value
+                listcontainer.appendChild(li)
+                let span=document.createElement("span")
+                span.innerHTML="\u00d7"
+                li.appendChild(span)
+            }
+            inputbox.value = ""
+            savedata()
+        }
+        listcontainer.addEventListener("click",function(a){
+            if(a.target.tagName=="LI"){
+                a.target.classList.toggle("checked")
+            }
+            else if(a.target.tagName=="SPAN"){
+                a.target.parentElement.remove()
+            }
+        },false)
+
+        function savedata(){
+            localStorage.setItem("data",listcontainer.innerHTML)
+        }
+        function showtask(){
+            listcontainer.innerHTML=localStorage.getItem("data")
+        }
+        showtask()
+        </script>
+    </body>
+</html>
